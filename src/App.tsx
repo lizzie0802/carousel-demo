@@ -1,7 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useRef} from 'react';
 import './App.css';
-import Carousel from "./carousel";
+import Carousel, {CarouselRefProps} from "./carousel";
 function App() {
   const beforeChange = (current: number, next: number) => {
     console.log(current, next)
@@ -9,22 +8,15 @@ function App() {
   const afterChange = (current: number) => {
     console.log(current)
   }
-
+  const carouselRef = useRef<CarouselRefProps>() as React.MutableRefObject<CarouselRefProps>
   return (
     <div className="App">
-      <Carousel width={100} beforeChange={beforeChange} afterChange={afterChange}>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
+      <Carousel  width={400} beforeChange={beforeChange} afterChange={afterChange} ref={carouselRef} autoplay>
+        {Array(3)
+            .fill(0)
+            .map((_item, index) => (
+                <div key={index} className='carousel-content'>{index + 1}</div>
+            ))}
       </Carousel>
     </div>
   );

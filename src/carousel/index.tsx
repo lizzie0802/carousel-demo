@@ -29,7 +29,7 @@ export interface CarouselRefProps {
 const Carousel = React.forwardRef<CarouselRefProps, CarouselProps>(
   (
     {
-      prefixCls = 'sm-carousel',
+      prefixCls = 'carousel-demo',
       className = '',
       width,
       autoplay,
@@ -56,6 +56,11 @@ const Carousel = React.forwardRef<CarouselRefProps, CarouselProps>(
         ) {
           beforeChange?.(current, nextIndex);
           return nextIndex;
+        }
+        // 走到最后一页后重新开始
+        if(nextIndex === React.Children.count(children)) {
+          beforeChange?.(0, 1)
+          return 0
         }
         return current;
       });
@@ -88,7 +93,6 @@ const Carousel = React.forwardRef<CarouselRefProps, CarouselProps>(
 
     const translateX = currentIndex * width;
     const childrenCount = React.Children.count(children);
-    console.log(childrenCount)
     const trackWidth = childrenCount * width;
 
     const cls = `${prefixCls} ${className}`;
